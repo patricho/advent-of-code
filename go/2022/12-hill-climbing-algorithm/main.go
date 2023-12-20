@@ -7,10 +7,18 @@ import (
 	s "github.com/patricho/advent-of-code/go/shared"
 )
 
-func main() {
-	lines := s.ReadFile("input.txt")
+var grid [][]rune
 
-	grid := [][]rune{}
+func main() {
+	parseGrid()
+	// part1()
+	part2()
+	// test()
+}
+
+func parseGrid() {
+	lines := s.ReadFile("input.txt")
+	grid = [][]rune{}
 	for _, line := range lines {
 		row := []rune{}
 		for _, c := range line {
@@ -18,56 +26,80 @@ func main() {
 		}
 		grid = append(grid, row)
 	}
+}
 
-	start := findPoint(grid, 'S')
-	end := findPoint(grid, 'E')
+func part2() {
+	starts := findPoints('a')
+	end := findPoints('E')[0]
+	shortest := 999999
+	shortestPath := []s.Point{}
+	for _, start := range starts {
+		path := findPath(start, end)
+		if len(path) > 0 && len(path) < shortest {
+			// printPath(path)
+			shortest = len(path)
+			shortestPath = path
+		}
+	}
+	printPath(shortestPath)
+	fmt.Println("shortest path found:", shortest, "steps:", shortest-1)
+}
 
-	path := findPath(grid, start, end)
+func part1() {
+	start := findPoints('S')[0]
+	end := findPoints('E')[0]
 
-	if path != nil {
-		fmt.Println("path length:", len(path), ", steps:", len(path)-1)
+	path := findPath(start, end)
 
-		gray := color.New(color.FgBlue).Add(color.Faint)
-		green := color.New(color.FgRed).Add(color.Bold)
+	if path == nil {
+		panic("no path found")
+	}
 
-		for y, row := range grid {
-			for x, c := range row {
-				visited := false
-				for _, p := range path {
-					if p.X == x && p.Y == y {
-						visited = true
-						break
-					}
-				}
-				if visited {
-					green.Print(string(c))
-				} else {
-					gray.Print(string(c))
+	printPath(path)
+
+	fmt.Println("path length:", len(path), ", steps:", len(path)-1)
+}
+
+func printPath(path []s.Point) {
+	gray := color.New(color.FgBlue).Add(color.Faint)
+	green := color.New(color.FgRed).Add(color.Bold)
+
+	for y, row := range grid {
+		for x, c := range row {
+			visited := false
+			for _, p := range path {
+				if p.X == x && p.Y == y {
+					visited = true
+					break
 				}
 			}
-			fmt.Print("\n")
+			if visited {
+				green.Print(string(c))
+			} else {
+				gray.Print(string(c))
+			}
 		}
-	} else {
-		fmt.Println("no path found")
+		fmt.Print("\n")
 	}
 }
 
-func findPoint(grid [][]rune, r rune) s.Point {
+func findPoints(r rune) []s.Point {
+	output := []s.Point{}
 	for y, row := range grid {
 		for x, c := range row {
 			if c == r {
-				return s.Point{
+				output = append(output, s.Point{
 					X: x,
 					Y: y,
-				}
+				})
 			}
 		}
 	}
-	panic("wtf")
+	return output
 }
 
 // findPath is a modified BFS algorithm with specific rules for this use case
-func findPath(grid [][]rune, start, end s.Point) []s.Point {
+func findPath(start, end s.Point) []s.Point {
 	rows, cols := len(grid), len(grid[0])
 
 	queue := s.CreateQueue[s.Point]()
