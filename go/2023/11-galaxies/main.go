@@ -5,7 +5,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/patricho/advent-of-code/go/util"
+	"github.com/patricho/advent-of-code/go/shared"
 )
 
 type Point struct {
@@ -27,18 +27,18 @@ func main() {
 	run(100, "test.txt")
 
 	// part 1
-	util.Measure(func() {
+	shared.Measure(func() {
 		run(2, "input.txt")
 	})
 
 	// part 2
-	util.Measure(func() {
+	shared.Measure(func() {
 		run(1_000_000, "input.txt")
 	})
 }
 
 func run(weight int, filename string) {
-	lines = util.ReadFile(filename)
+	lines = shared.ReadFile(filename)
 	weightAddon = weight - 1
 	emptyRows, emptyCols = findEmpty()
 	galaxies := findGalaxies()

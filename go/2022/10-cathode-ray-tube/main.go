@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	c "github.com/patricho/advent-of-code/go/util"
+	c "github.com/patricho/advent-of-code/go/shared"
 )
 
 type Instruction struct {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/patricho/advent-of-code/go/util"
+	"github.com/patricho/advent-of-code/go/shared"
 )
 
 type Pair struct {
@@ -25,7 +25,7 @@ var (
 )
 
 func parseLegendSets() {
-	lines := util.ReadFile("input.txt")
+	lines := shared.ReadFile("input.txt")
 
 	legendSets = [][]MappingLegend{}
 	legendSet := []MappingLegend{}
@@ -35,7 +35,7 @@ func parseLegendSets() {
 			// read seeds
 			nums := strings.Split(strings.TrimPrefix(line, "seeds: "), " ")
 			for _, num := range nums {
-				seeds = append(seeds, util.ToInt64(num))
+				seeds = append(seeds, shared.ToInt64(num))
 			}
 		} else if idx >= 2 {
 			// read legends
@@ -49,9 +49,9 @@ func parseLegendSets() {
 				// parse an ordinary damn line
 				nums := strings.Split(line, " ")
 				legendSet = append(legendSet, MappingLegend{
-					To:    util.ToInt64(nums[0]),
-					From:  util.ToInt64(nums[1]),
-					Range: util.ToInt64(nums[2]),
+					To:    shared.ToInt64(nums[0]),
+					From:  shared.ToInt64(nums[1]),
+					Range: shared.ToInt64(nums[2]),
 				})
 			}
 		}

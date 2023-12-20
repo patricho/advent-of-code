@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strconv"
 
-	c "github.com/patricho/advent-of-code/go/util"
+	c "github.com/patricho/advent-of-code/go/shared"
 )
 
 /*

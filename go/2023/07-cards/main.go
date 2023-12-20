@@ -5,7 +5,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/patricho/advent-of-code/go/util"
+	"github.com/patricho/advent-of-code/go/shared"
 )
 
 type Hand struct {
@@ -25,7 +25,7 @@ func main() {
 }
 
 func run(hands []Hand, part int) {
-	util.Measure(func() {
+	shared.Measure(func() {
 		rankHands(&hands, part)
 		sum := 0
 		for _, h := range hands {
@@ -37,12 +37,12 @@ func run(hands []Hand, part int) {
 
 func parseHands() []Hand {
 	out := []Hand{}
-	lines := util.ReadFile("input.txt")
+	lines := shared.ReadFile("input.txt")
 	for _, line := range lines {
 		arr := strings.Split(line, " ")
 		out = append(out, Hand{
 			Hand: arr[0],
-			Bid:  util.ToInt(arr[1]),
+			Bid:  shared.ToInt(arr[1]),
 		})
 	}
 	return out

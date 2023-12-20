@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/patricho/advent-of-code/go/util"
+	"github.com/patricho/advent-of-code/go/shared"
 )
 
 type Map struct {
@@ -16,19 +16,19 @@ func main() {
 	step1("test1.txt")
 	step1("test2.txt")
 
-	util.Measure(func() {
+	shared.Measure(func() {
 		step1("input.txt")
 	})
 
 	step2("test3.txt")
 
-	util.Measure(func() {
+	shared.Measure(func() {
 		step2("input.txt")
 	})
 }
 
 func step1(filename string) {
-	lines := util.ReadFile(filename)
+	lines := shared.ReadFile(filename)
 	directions := lines[0]
 	mapping := parseMapping(lines)
 	steps := find(mapping, directions, "AAA", "ZZZ")
@@ -36,7 +36,7 @@ func step1(filename string) {
 }
 
 func step2(filename string) {
-	lines := util.ReadFile(filename)
+	lines := shared.ReadFile(filename)
 	directions := lines[0]
 	mapping := parseMapping(lines)
 	steps := []int{}
@@ -53,7 +53,7 @@ func step2(filename string) {
 
 	// calculate LCM for all the found steps
 	fmt.Println("found steps:", steps)
-	fmt.Println("steps lcm:", util.LCM(steps...))
+	fmt.Println("steps lcm:", shared.LCM(steps...))
 }
 
 func parseMapping(lines []string) map[string]Map {

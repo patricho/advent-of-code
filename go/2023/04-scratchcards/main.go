@@ -7,11 +7,11 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/patricho/advent-of-code/go/util"
+	"github.com/patricho/advent-of-code/go/shared"
 )
 
 func main() {
-	lines := util.ReadFile("input.txt")
+	lines := shared.ReadFile("input.txt")
 	cardCounts := map[int]int{}
 	numbersRegex, _ := regexp.Compile(`\d+`)
 	scoreSum := 0

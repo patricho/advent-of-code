@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/patricho/advent-of-code/go/util"
+	"github.com/patricho/advent-of-code/go/shared"
 )
 
 func main() {
@@ -14,7 +14,7 @@ func main() {
 }
 
 func part1() {
-	lines := util.ReadFile("input.txt")
+	lines := shared.ReadFile("input.txt")
 	digits := "0123456789"
 	sum := 0
 
@@ -39,7 +39,7 @@ func part1() {
 }
 
 func part2() {
-	lines := util.ReadFile("input.txt")
+	lines := shared.ReadFile("input.txt")
 	digNumbers := "0123456789"
 	letNumbers := map[string]string{
 		"one":   "1",

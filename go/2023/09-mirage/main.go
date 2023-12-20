@@ -5,7 +5,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/patricho/advent-of-code/go/util"
+	"github.com/patricho/advent-of-code/go/shared"
 )
 
 func main() {
@@ -14,13 +14,13 @@ func main() {
 }
 
 func run(part int, filename string) {
-	lines := util.ReadFile(filename)
+	lines := shared.ReadFile(filename)
 
 	histories := [][][]int{}
 	for _, line := range lines {
 		nums := []int{}
 		for _, n := range strings.Split(line, " ") {
-			nums = append(nums, util.ToInt(n))
+			nums = append(nums, shared.ToInt(n))
 		}
 		if part == 2 {
 			slices.Reverse(nums)
@@ -40,7 +40,7 @@ func run(part int, filename string) {
 				diff := row[j] - row[j-1]
 				diffs = append(diffs, diff)
 			}
-			diff = !util.All(row, 0)
+			diff = !shared.All(row, 0)
 			if diff {
 				history = append(history, diffs)
 			}
@@ -58,14 +58,14 @@ func run(part int, filename string) {
 
 			// add from the row below
 			prevrow := history[i+1]
-			add := util.Last(prevrow) + util.Last(history[i])
+			add := shared.Last(prevrow) + shared.Last(history[i])
 			// fmt.Println(iter, "row", history[i], "add", last(prevrow), "+", last(history[i]), "=", add)
 			history[i] = append(history[i], add)
 			rowlen++
 
 		}
 
-		added += util.Last(history[0])
+		added += shared.Last(history[0])
 
 		// fmt.Println(iter, "row", last(history[0]))
 	}

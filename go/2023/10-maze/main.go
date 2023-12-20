@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
-	"github.com/patricho/advent-of-code/go/util"
+	"github.com/patricho/advent-of-code/go/shared"
 )
 
 /*
@@ -28,7 +28,7 @@ var (
 )
 
 func main() {
-	lines = util.ReadFile("input.txt")
+	lines = shared.ReadFile("input.txt")
 	up := Point{X: 0, Y: -1}
 	left := Point{X: -1, Y: 0}
 	right := Point{X: 1, Y: 0}

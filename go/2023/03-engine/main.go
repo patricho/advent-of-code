@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/patricho/advent-of-code/go/util"
+	"github.com/patricho/advent-of-code/go/shared"
 )
 
 var (
@@ -30,7 +30,7 @@ func checkEngine(line string, idx, start, num int) {
 }
 
 func main() {
-	lines = util.ReadFile("input.txt")
+	lines = shared.ReadFile("input.txt")
 	numbersRegex, _ := regexp.Compile(`\d+`)
 	symbolsRegex, _ := regexp.Compile(`[^\d.]`)
 	sumPart1 := 0

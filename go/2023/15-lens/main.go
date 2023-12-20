@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/patricho/advent-of-code/go/util"
+	"github.com/patricho/advent-of-code/go/shared"
 )
 
 type Lens struct {
@@ -16,7 +16,7 @@ type Lens struct {
 var boxes map[int][]Lens
 
 func main() {
-	lines := util.ReadFile("input.txt")
+	lines := shared.ReadFile("input.txt")
 	lenses := strings.Split(lines[0], ",")
 	runPart1(lenses)
 	runPart2(lenses)
@@ -39,7 +39,7 @@ func runPart2(lenses []string) {
 		lens := Lens{
 			Label: arr[0],
 			Hash:  lensHash(arr[0]),
-			Focal: util.ToInt(arr[1]),
+			Focal: shared.ToInt(arr[1]),
 		}
 
 		if add {

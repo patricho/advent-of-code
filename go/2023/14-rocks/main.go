@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
-	"github.com/patricho/advent-of-code/go/util"
+	"github.com/patricho/advent-of-code/go/shared"
 )
 
 type Point struct {
@@ -35,17 +35,17 @@ func main() {
 	down = Point{Y: 1, X: 0}
 	left = Point{Y: 0, X: -1}
 	right = Point{Y: 0, X: 1}
-	util.Measure(func() {
+	shared.Measure(func() {
 		run(1, "input.txt")
 	})
-	util.Measure(func() {
+	shared.Measure(func() {
 		run(2, "input.txt")
 	})
 }
 
 func run(part int, filename string) {
-	lines := util.ReadFile(filename)
-	grid = util.LinesToGrid(lines)
+	lines := shared.ReadFile(filename)
+	grid = shared.LinesToGrid(lines)
 	width = len(grid[0])
 	height = len(grid)
 	cycles = map[string]CycleInfo{}
@@ -97,7 +97,7 @@ func cycleNTimes(n int) int {
 	sum := 0
 	for i := 0; i < n; i++ {
 		sum = cycle()
-		hash := util.HashString(util.GridToString(grid))
+		hash := shared.HashString(shared.GridToString(grid))
 		c, ok := cycles[hash]
 		if ok {
 			if sum != c.Sum {

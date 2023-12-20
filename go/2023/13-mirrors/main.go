@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/patricho/advent-of-code/go/util"
+	"github.com/patricho/advent-of-code/go/shared"
 )
 
 var (
@@ -24,7 +24,7 @@ func main() {
 }
 
 func run(part int, filename string) {
-	alllines := util.ReadFile(filename)
+	alllines := shared.ReadFile(filename)
 	blocks = findBlocks(alllines)
 	sum := 0
 
@@ -38,7 +38,7 @@ func run(part int, filename string) {
 }
 
 func processBlock(part, num int) int {
-	binaryLines = util.ToBinary(lines, "#", ".")
+	binaryLines = shared.ToBinary(lines, "#", ".")
 	wantDiffs = 0
 	pointsMultiplier = 100
 
@@ -57,7 +57,7 @@ func processBlock(part, num int) int {
 
 	// check vertical too
 	lines = flipLines(lines)
-	binaryLines = util.ToBinary(lines, "#", ".")
+	binaryLines = shared.ToBinary(lines, "#", ".")
 	pointsMultiplier = 1
 
 	points = calculatePoints()
@@ -109,7 +109,7 @@ func calculatePoints() int {
 		prevline := binaryLines[i-1]
 
 		// if match found
-		if util.CountDiffs(line, prevline) <= wantDiffs {
+		if shared.CountDiffs(line, prevline) <= wantDiffs {
 			// fmt.Println("match found on line", i-1, "and", i)
 
 			// fmt.Println("all binary lines", binaryLines)
@@ -155,7 +155,7 @@ func isMatchValid(linesBefore, linesAfter []uint64, maxLen int) bool {
 	totalDiffs := 0
 
 	for i := 0; i < maxLen; i++ {
-		totalDiffs += util.CountDiffs(linesBefore[i], linesAfter[i])
+		totalDiffs += shared.CountDiffs(linesBefore[i], linesAfter[i])
 	}
 
 	return totalDiffs == wantDiffs
