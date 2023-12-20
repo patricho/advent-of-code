@@ -17,84 +17,124 @@ var grid [][]rune
 func main() {
 	lines := s.ReadFile("input.txt")
 	grid = s.LinesToGrid(lines)
-	beams := map[Beam]bool{}
-	visited := map[s.Point]bool{}
+	s.Measure(part1)
+	s.Measure(part2)
+}
+
+func part1() {
 	start := Beam{
-		Point:     s.Point{X: 0, Y: 0},
+		Point:     s.Point{X: -1, Y: 0},
 		Direction: s.Right,
 	}
+	visited := solve(start)
+	printGrid(visited)
+	fmt.Println("part 1 energized:", len(visited))
+}
+
+func part2() {
+	rows, cols := len(grid), len(grid[0])
+	maxEnergized := 0
+	starts := []Beam{}
+
+	for row := 0; row < rows; row++ {
+		starts = append(
+			starts,
+			Beam{ // left to right
+				Point:     s.Point{X: -1, Y: row},
+				Direction: s.Right,
+			},
+			Beam{ // right to left
+				Point:     s.Point{X: cols, Y: row},
+				Direction: s.Left,
+			},
+		)
+	}
+
+	for col := 0; col < cols; col++ {
+		starts = append(
+			starts,
+			Beam{ // top to bottom
+				Point:     s.Point{X: col, Y: -1},
+				Direction: s.Down,
+			},
+			Beam{ // bottom to top
+				Point:     s.Point{X: col, Y: rows},
+				Direction: s.Up,
+			},
+		)
+	}
+
+	for _, start := range starts {
+		visited := solve(start)
+		if len(visited) > maxEnergized {
+			maxEnergized = len(visited)
+		}
+	}
+
+	fmt.Println("part 2 max energized", maxEnergized)
+}
+
+func solve(start Beam) map[s.Point]bool {
+	beams := map[Beam]bool{}
+	visited := map[s.Point]bool{}
 	queue := s.CreateQueue[Beam]()
 	queue.Enqueue(start)
 
-	rows, cols := len(grid), len(grid[0])
-
 	for queue.Len() > 0 {
 		current := queue.Dequeue()
-		beams[current] = true
-		visited[current.Point] = true
 
-		currChar := grid[current.Y][current.X]
+		currChar := '.'
+		if !s.OOB(grid, current.Point) {
+			beams[current] = true
+			visited[current.Point] = true
+			currChar = grid[current.Y][current.X]
+		}
 
 		dirs := []s.Point{}
-		dirsstr := ""
 
 		if currChar == '|' && (current.Direction == s.Right || current.Direction == s.Left) {
 			dirs = append(dirs, s.Up, s.Down)
-			dirsstr += "up/down"
 		} else if currChar == '-' && (current.Direction == s.Down || current.Direction == s.Up) {
 			dirs = append(dirs, s.Left, s.Right)
-			dirsstr += "left/right"
 		} else if currChar == '/' {
-			if current.Direction == s.Down {
+			switch current.Direction {
+			case s.Down:
 				dirs = append(dirs, s.Left)
-				dirsstr += "left"
-			} else if current.Direction == s.Up {
+			case s.Up:
 				dirs = append(dirs, s.Right)
-				dirsstr += "right"
-			} else if current.Direction == s.Left {
+			case s.Left:
 				dirs = append(dirs, s.Down)
-				dirsstr += "down"
-			} else if current.Direction == s.Right {
+			case s.Right:
 				dirs = append(dirs, s.Up)
-				dirsstr += "up"
 			}
 		} else if currChar == '\\' {
-			if current.Direction == s.Down {
+			switch current.Direction {
+			case s.Down:
 				dirs = append(dirs, s.Right)
-				dirsstr += "right"
-			} else if current.Direction == s.Up {
+			case s.Up:
 				dirs = append(dirs, s.Left)
-				dirsstr += "left"
-			} else if current.Direction == s.Left {
+			case s.Left:
 				dirs = append(dirs, s.Up)
-				dirsstr += "up"
-			} else if current.Direction == s.Right {
+			case s.Right:
 				dirs = append(dirs, s.Down)
-				dirsstr += "down"
 			}
 		} else {
 			dirs = append(dirs, current.Direction)
-			dirsstr += "unchanged"
 		}
-
-		// fmt.Println(current.Point, string(currChar), dirsstr, dirs)
-		// printGrid(visited, current.Point)
-		// fmt.Println("")
 
 		for _, dir := range dirs {
 			next := Beam{
 				Point: s.Point{
-					X: current.X + dir.X,
 					Y: current.Y + dir.Y,
+					X: current.X + dir.X,
 				},
 				Direction: dir,
 			}
 
-			if next.Y < 0 || next.Y >= rows || next.X < 0 || next.X >= cols {
-				// Out of bounds
+			if s.OOB(grid, next.Point) {
 				continue
 			} else if beams[next] {
-				// Already visited (in this direction)
+				// already visited (in this direction)
 				continue
 			}
 
@@ -102,22 +142,20 @@ func main() {
 		}
 	}
 
-	printGrid(visited, s.Point{X: -1, Y: -1})
-
-	fmt.Println("energized:", len(visited))
+	return visited
 }
 
-func printGrid(visited map[s.Point]bool, hl s.Point) {
+func printGrid(visited map[s.Point]bool) {
 	gray := color.New(color.FgBlue).Add(color.Faint)
 	red := color.New(color.FgRed).Add(color.Bold)
-	yellow := color.New(color.FgYellow)
 
 	for y, row := range grid {
 		for x, c := range row {
 			vis := visited[s.Point{X: x, Y: y}]
-			if y == hl.Y && x == hl.X {
+			/*if y == hl.Y && x == hl.X {
 				yellow.Print(string(c))
-			} else if vis {
+			} else*/
+			if vis {
 				red.Print(string(c))
 			} else {
 				gray.Print(string(c))

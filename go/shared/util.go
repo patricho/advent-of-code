@@ -72,6 +72,10 @@ func GridToString(grid [][]rune) string {
 	return b.String()
 }
 
+func OOB[T any](grid [][]T, p Point) bool {
+	return p.Y < 0 || p.Y >= len(grid) || p.X < 0 || p.X >= len(grid[0])
+}
+
 func Measure(f func()) {
 	start := time.Now()
 	f()
