@@ -16,7 +16,7 @@ var grid [][]rune
 
 func main() {
 	lines := s.ReadFile("input.txt")
-	grid = s.LinesToGrid(lines)
+	grid = s.LinesToRuneGrid(lines)
 	s.Measure(part1)
 	s.Measure(part2)
 }

@@ -45,7 +45,7 @@ func main() {
 
 func run(part int, filename string) {
 	lines := shared.ReadFile(filename)
-	grid = shared.LinesToGrid(lines)
+	grid = shared.LinesToRuneGrid(lines)
 	width = len(grid[0])
 	height = len(grid)
 	cycles = map[string]CycleInfo{}

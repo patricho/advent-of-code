@@ -46,12 +46,23 @@ func ReadFile(file string) []string {
 	return lines
 }
 
-func LinesToGrid(lines []string) [][]rune {
+func LinesToRuneGrid(lines []string) [][]rune {
 	out := make([][]rune, len(lines))
 	for lidx, line := range lines {
 		out[lidx] = make([]rune, len(line))
 		for i, r := range line {
 			out[lidx][i] = r
+		}
+	}
+	return out
+}
+
+func LinesToNumberGrid(lines []string) [][]int {
+	out := make([][]int, len(lines))
+	for lidx, line := range lines {
+		out[lidx] = make([]int, len(line))
+		for i, r := range line {
+			out[lidx][i] = ToInt(string(r))
 		}
 	}
 	return out

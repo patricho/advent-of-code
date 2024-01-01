@@ -19,7 +19,7 @@ func primitiveGridToString(grid [][]rune) string {
 
 func BenchmarkPrimitiveGridToString(b *testing.B) {
 	lines := ReadFile("../14-rocks/input.txt")
-	grid := LinesToGrid(lines)
+	grid := LinesToRuneGrid(lines)
 
 	b.ResetTimer()
 
@@ -30,7 +30,7 @@ func BenchmarkPrimitiveGridToString(b *testing.B) {
 
 func BenchmarkGridToString(b *testing.B) {
 	lines := ReadFile("../14-rocks/input.txt")
-	grid := LinesToGrid(lines)
+	grid := LinesToRuneGrid(lines)
 
 	b.ResetTimer()
 
@@ -41,7 +41,7 @@ func BenchmarkGridToString(b *testing.B) {
 
 func BenchmarkHashString(b *testing.B) {
 	lines := ReadFile("../14-rocks/input.txt")
-	grid := LinesToGrid(lines)
+	grid := LinesToRuneGrid(lines)
 	gridstring := GridToString(grid)
 
 	b.ResetTimer()
