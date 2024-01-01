@@ -45,7 +45,12 @@ var (
 )
 
 func main() {
+	s.Measure(func() { solve(1, "test1.txt") })
+	s.Measure(func() { solve(2, "test1.txt") })
+	s.Measure(func() { solve(2, "test2.txt") })
 	s.Measure(func() { solve(1, "input.txt") })
+	s.Measure(func() { solve(2, "input.txt") })
+	s.Measure(func() { solve(3, "input.txt") })
 }
 
 func solve(part int, filename string) {
@@ -56,15 +61,25 @@ func solve(part int, filename string) {
 	start = s.Point{Y: 0, X: 0}
 	end = s.Point{Y: rows - 1, X: cols - 1}
 
-	path, cost := findPath(grid, start, end)
+	minStreak := 0
+	maxStreak := 3
+	if part == 2 {
+		minStreak = 4
+		maxStreak = 10
+	} else if part == 3 {
+		minStreak = 0
+		maxStreak = 999
+	}
+
+	path, cost := findPath(grid, start, end, minStreak, maxStreak)
 	if path != nil {
-		fmt.Println("part", part, "cost", cost)
+		fmt.Println("part", part, filename, "cost", cost)
 	} else {
-		fmt.Println("part", part, "no path found")
+		fmt.Println("part", part, filename, "no path found")
 	}
 }
 
-func findPath(grid [][]int, start, end s.Point) ([]s.Point, int) {
+func findPath(grid [][]int, start, end s.Point, minStreak, maxStreak int) ([]s.Point, int) {
 	pq := make(PriorityQueue, 0)
 	heap.Init(&pq)
 
@@ -119,8 +134,12 @@ func findPath(grid [][]int, start, end s.Point) ([]s.Point, int) {
 			}
 
 			nextd.Streak = 0
-			if move == currentNode.Direction {
-				if currentNode.Streak >= 2 {
+
+			if next == end && currentNode.Streak+1 < minStreak-1 {
+				// End found, but with too short a streak before
+				continue
+			} else if move == currentNode.Direction {
+				if currentNode.Streak >= maxStreak-1 {
 					// Can't continue straight on
 					continue
 				}
@@ -130,6 +149,9 @@ func findPath(grid [][]int, start, end s.Point) ([]s.Point, int) {
 				continue
 			} else if move.Y == currentNode.Direction.Y && move.X != currentNode.Direction.X {
 				// reversing
+				continue
+			} else if currentd.Streak < minStreak-1 {
+				// Can't turn yet
 				continue
 			}
 
