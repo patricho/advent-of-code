@@ -40,32 +40,31 @@ func (pq *PriorityQueue) Pop() interface{} {
 
 var (
 	grid       [][]int
+	rows, cols int
 	start, end s.Point
 )
 
 func main() {
-	lines := s.ReadFile("test.txt")
+	s.Measure(func() { solve(1, "input.txt") })
+}
+
+func solve(part int, filename string) {
+	lines := s.ReadFile(filename)
 	grid = s.LinesToNumberGrid(lines)
+	rows, cols = len(grid), len(grid[0])
 
 	start = s.Point{Y: 0, X: 0}
-	end = s.Point{Y: 12, X: 12}
+	end = s.Point{Y: rows - 1, X: cols - 1}
 
 	path, cost := findPath(grid, start, end)
 	if path != nil {
-		fmt.Printf("Path found with cost %d:\n", cost)
-		for _, point := range path {
-			fmt.Printf("(%d, %d) ", point.X, point.Y)
-		}
-		fmt.Println("")
-
+		fmt.Println("part", part, "cost", cost)
 	} else {
-		fmt.Println("No path found.")
+		fmt.Println("part", part, "no path found")
 	}
 }
 
 func findPath(grid [][]int, start, end s.Point) ([]s.Point, int) {
-	rows, cols := len(grid), len(grid[0])
-
 	pq := make(PriorityQueue, 0)
 	heap.Init(&pq)
 
@@ -74,7 +73,7 @@ func findPath(grid [][]int, start, end s.Point) ([]s.Point, int) {
 	parent := make(map[DirectedPoint]DirectedPoint)
 	steps := 0
 
-	// Enqueue the starting point with cost 0
+	// Enqueue the starting point with cost 0 (twice, once in each possible direction)
 	heap.Push(&pq, &Node{Point: start, Cost: 0, Direction: s.Point{X: 1, Y: 0}, Streak: 0})
 	startd1 := DirectedPoint{X: start.X, Y: start.Y, DirX: 1, DirY: 0, Streak: 0}
 	costs[startd1] = 0
@@ -85,28 +84,17 @@ func findPath(grid [][]int, start, end s.Point) ([]s.Point, int) {
 	costs[startd2] = 0
 	visited[startd2] = true
 
-	// Define possible moves (up, down, left, right)
-	moves := []s.Point{
-		{Y: -1, X: 0}, // up
-		{Y: 1, X: 0},  // down
-		{Y: 0, X: -1}, // left
-		{Y: 0, X: 1},  // right
-	}
-
 	for pq.Len() > 0 {
 		currentNode := heap.Pop(&pq).(*Node)
 		current := currentNode.Point
 		currentd := DirectedPoint{X: current.X, Y: current.Y, DirX: currentNode.Direction.X, DirY: currentNode.Direction.Y, Streak: currentNode.Streak}
 		steps++
 
-		fmt.Println("current", current.Y, current.X, grid[current.Y][current.X], "cost", costs[currentd])
-		// showGrid(current, parent, visited)
-
 		if current == end {
-			fmt.Println("total cells:", cols*rows, "steps taken:", steps, "parents:", len(parent), "cost", costs[currentd])
+			fmt.Println("total cells:", cols*rows, ", steps taken:", steps, ", parents:", len(parent), ", cost:", costs[currentd])
 			endd := currentd
 			cost := costs[currentd]
-			fmt.Println("endd:", endd)
+
 			// Reconstruct the path from end to start
 			var path []s.Point
 			for current != start {
@@ -115,20 +103,18 @@ func findPath(grid [][]int, start, end s.Point) ([]s.Point, int) {
 				current = s.Point{X: currentd.X, Y: currentd.Y}
 			}
 			path = append([]s.Point{start}, path...)
+
+			// Show the path taken for fun
 			showGrid(endd, path)
-			fmt.Println("endd:", endd)
-			fmt.Println("returning cost", cost)
+
 			return path, cost
 		}
 
-		// Explore possible moves
-		for _, move := range moves {
+		for _, move := range s.Directions {
 			next := s.Point{X: current.X + move.X, Y: current.Y + move.Y}
 			nextd := DirectedPoint{X: next.X, Y: next.Y, DirX: move.X, DirY: move.Y, Streak: 0}
 
-			// Check if the next point is within bounds
-			if next.Y < 0 || next.Y >= rows || next.X < 0 || next.X >= cols {
-				fmt.Println("next", nextd, "skip - oob")
+			if s.OOB(grid, next) {
 				continue
 			}
 
@@ -136,27 +122,19 @@ func findPath(grid [][]int, start, end s.Point) ([]s.Point, int) {
 			if move == currentNode.Direction {
 				if currentNode.Streak >= 2 {
 					// Can't continue straight on
-					fmt.Println("next", nextd, grid[next.Y][next.X], "skip - needs to turn")
 					continue
 				}
-
 				nextd.Streak = currentNode.Streak + 1
 			} else if move.X == currentNode.Direction.X && move.Y != currentNode.Direction.Y {
 				// reversing
-				fmt.Println("next", nextd, grid[next.Y][next.X], "skip - reversing")
 				continue
 			} else if move.Y == currentNode.Direction.Y && move.X != currentNode.Direction.X {
 				// reversing
-				fmt.Println("next", nextd, grid[next.Y][next.X], "skip - reversing")
 				continue
 			}
 
 			// Calculate the cost to reach the next point
 			nextCost := costs[currentd] + grid[next.Y][next.X]
-
-			if next == end {
-				fmt.Println("one path to end found", next, nextCost)
-			}
 
 			// Check if the cost to reach the next point is less than the current known cost
 			if !visited[nextd] || nextCost < costs[nextd] {
@@ -165,8 +143,6 @@ func findPath(grid [][]int, start, end s.Point) ([]s.Point, int) {
 				costs[nextd] = nextCost
 				visited[nextd] = true
 				parent[nextd] = currentd
-			} else {
-				fmt.Println("next", nextd, grid[next.Y][next.X], "skip - cost", nextCost)
 			}
 		}
 	}
@@ -176,7 +152,6 @@ func findPath(grid [][]int, start, end s.Point) ([]s.Point, int) {
 }
 
 func showGrid(current DirectedPoint, path []s.Point) {
-	// gray := color.New(color.FgHiWhite).Add(color.Faint)
 	blue := color.New(color.FgBlue).Add(color.Faint)
 	red := color.New(color.FgRed).Add(color.Bold)
 	yellow := color.New(color.FgYellow).Add(color.Bold)
@@ -192,8 +167,6 @@ func showGrid(current DirectedPoint, path []s.Point) {
 				yellow.Print(fmt.Sprint(c))
 			} else if inpath {
 				red.Print(fmt.Sprint(c))
-				// } else if visited[p] {
-				// 	gray.Print(fmt.Sprint(c))
 			} else {
 				blue.Print(fmt.Sprint(c))
 			}
