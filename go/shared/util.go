@@ -173,3 +173,17 @@ func All[T comparable](slice []T, find T) bool {
 
 	return true
 }
+
+// Shoelace uses the shoelace formula to calculate the inner area of a polygon
+func Shoelace(points []Point) int {
+	area := 0
+	plen := len(points)
+
+	for i := range points {
+		sum1 := points[i].X * points[(i+1)%plen].Y
+		sum2 := points[i].Y * points[(i+1)%plen].X
+		area += sum1 - sum2
+	}
+
+	return int(math.Abs(float64(area / 2)))
+}
