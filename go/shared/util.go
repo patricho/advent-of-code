@@ -137,6 +137,14 @@ func ManhattanDistance(a []int, b []int) float64 {
 	return float64(s)
 }
 
+func ManhattanDistancePoint(a Point, b Point) float64 {
+	var s float64
+	s = 0
+	s += math.Abs(float64(b.X) - float64(a.X))
+	s += math.Abs(float64(b.Y) - float64(a.Y))
+	return float64(s)
+}
+
 // ToBinaryString takes an int and just returns it as a print friendly string
 // ie 1001 -> "1001"
 func ToBinaryString(in uint64) string {
@@ -186,4 +194,13 @@ func Shoelace(points []Point) int {
 	}
 
 	return int(math.Abs(float64(area / 2)))
+}
+
+func ToIntSlice(s string) []int {
+	strs := strings.Split(s, ",")
+	out := make([]int, len(strs))
+	for i, str := range strs {
+		out[i] = ToInt(str)
+	}
+	return out
 }
