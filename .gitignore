@@ -1,3 +1,5 @@
 **/bin
 **/obj
 go/2023/12-springs/main.ext
+rust/data/
+rust/target/
