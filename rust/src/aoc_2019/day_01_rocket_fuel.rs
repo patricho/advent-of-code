@@ -1,24 +1,29 @@
-use crate::util;
+use crate::util::{measure, read_file_lines};
 
 pub fn main() {
-    solve(1, "data/2019/01_test.txt");
-    // assert_eq!(res, 34241);
+    let res = solve(1, "data/2019/01_test.txt");
+    assert_eq!(res, 34241);
 
-    solve(1, "data/2019/01_input.txt");
-    // assert_eq!(res, 3317970);
+    measure(|| {
+        solve(1, "data/2019/01_input.txt");
+    });
 
-    solve(2, "data/2019/01_input.txt");
-    // assert_eq!(res, 4974073);
+    measure(|| {
+        solve(2, "data/2019/01_input.txt");
+    });
+
+    // let temp = read_file_string("data/2019/01_test.txt").unwrap();
+    // println!("Test: {temp}");
 }
 
 fn solve(part: i32, filename: &str) -> i32 {
-    let lines = util::read_file(filename).unwrap();
+    let lines = read_file_lines(filename);
 
-    let sum: i32 = lines
+    let sum = lines
         .iter()
         .map(|line| {
-            let lineno = line.parse::<i32>().unwrap();
-            let mut n = calc(lineno);
+            let line_no = line.parse().unwrap();
+            let mut n = calc(line_no);
 
             if part == 2 {
                 let mut nn = n;
@@ -34,11 +39,11 @@ fn solve(part: i32, filename: &str) -> i32 {
         })
         .sum();
 
-    println!("part {} file {} sum: {}", part, filename, sum);
+    println!("part: {part}, file: {filename}, sum: {sum}");
 
     return sum;
 }
 
 fn calc(n: i32) -> i32 {
-    return ((n as f32 / 3_f32).floor() - 2_f32) as i32;
+    return ((n as f32 / 3.0).floor() - 2.0) as i32;
 }
