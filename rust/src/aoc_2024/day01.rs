@@ -1,4 +1,5 @@
-use crate::util::{count_values, get_hash_int, measure, read_file_lines, split_spaces_to_ints};
+use crate::util::file::read_file_lines;
+use crate::util::misc::{count_values, get_hash_int, measure, split_spaces_to_ints};
 
 const FILE_TEST: &str = "data/2024/01_test.txt";
 const FILE_INPUT: &str = "data/2024/01_input.txt";
@@ -16,11 +17,7 @@ pub fn main() {
 fn part1(filename: &str) -> i32 {
     let (left, right) = get_sorted_lists(filename);
 
-    let result = left
-        .iter()
-        .zip(&right)
-        .map(|(l, r)| (l - r).abs())
-        .sum();
+    let result = left.iter().zip(&right).map(|(l, r)| (l - r).abs()).sum();
 
     println!("file: {filename}, res: {result}");
 
@@ -31,10 +28,7 @@ fn part2(filename: &str) -> i32 {
     let (left, right) = get_sorted_lists(filename);
     let counts = count_values(right);
 
-    let result = left
-        .iter()
-        .map(|l| l * get_hash_int(&counts, l))
-        .sum();
+    let result = left.iter().map(|l| l * get_hash_int(&counts, l)).sum();
 
     println!("file: {filename}, res: {result}");
 

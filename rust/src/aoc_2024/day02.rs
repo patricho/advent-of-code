@@ -1,4 +1,5 @@
-use crate::util::{assert_test, measure, read_file_lines, show_results, split_spaces_to_ints};
+use crate::util::file::read_file_lines;
+use crate::util::misc::{assert_test, measure, show_results, split_spaces_to_ints};
 
 static FILE_TEST: &str = "data/2024/02_test.txt";
 static FILE_INPUT: &str = "data/2024/02_input.txt";
@@ -17,10 +18,7 @@ fn part1(filename: &str) -> usize {
     let lines = read_file_lines(filename);
     let diffs = lines_to_diffs(lines);
 
-    let ok_rows = diffs
-        .iter()
-        .filter(|ld| linediffs_ok(*ld))
-        .count();
+    let ok_rows = diffs.iter().filter(|ld| linediffs_ok(*ld)).count();
 
     return ok_rows;
 }

@@ -1,4 +1,5 @@
-use crate::util::{measure, read_file_lines};
+use crate::util::file::read_file_lines;
+use crate::util::misc::measure;
 
 pub fn main() {
     let res = solve(1, "data/2019/01_test.txt");
@@ -11,9 +12,6 @@ pub fn main() {
     measure(|| {
         solve(2, "data/2019/01_input.txt");
     });
-
-    // let temp = read_file_string("data/2019/01_test.txt").unwrap();
-    // println!("Test: {temp}");
 }
 
 fn solve(part: i32, filename: &str) -> i32 {

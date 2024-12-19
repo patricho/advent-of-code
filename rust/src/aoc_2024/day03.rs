@@ -1,4 +1,5 @@
-use crate::util::{assert_test, measure, read_file_string, show_results, to_int};
+use crate::util::file::read_file_string;
+use crate::util::misc::{assert_test, measure, show_results, to_int};
 use regex::Regex;
 
 static FILE_TEST: &str = "data/2024/03_test.txt";
