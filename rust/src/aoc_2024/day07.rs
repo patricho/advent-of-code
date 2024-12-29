@@ -64,19 +64,18 @@ fn is_valid_part1(target: &isize, nums: &[isize]) -> bool {
     }
 }
 
+// https://www.reddit.com/r/rust/comments/191l3ot/comment/kgw8afu/
+fn concat(a: isize, b: isize) -> isize {
+    a as isize * 10isize.pow(b.ilog10() + 1) + b as isize
+}
+
 fn is_valid_part2(target: &isize, nums: &Vec<isize>) -> bool {
     match nums.len() {
         0 => false,
         1 => nums[0] == *target,
         _ => {
             let (first, second, rest) = (nums[0], nums[1], nums[2..].to_vec());
-            let (added, muld, concatd) = (
-                first + second,
-                first * second,
-                format!("{first}{second}")
-                    .parse::<isize>()
-                    .unwrap_or_default(),
-            );
+            let (added, muld, concatd) = (first + second, first * second, concat(first, second));
 
             let mut rest1 = rest.clone();
             rest1.insert(0, added);
