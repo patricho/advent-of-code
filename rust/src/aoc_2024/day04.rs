@@ -1,7 +1,7 @@
 use crate::util::file::read_file_lines;
 use crate::util::grid::{
-    get_grid_point, lines_to_char_grid, move_point, Point, DIRECTIONS, DOWNLEFT, DOWNRIGHT, UPLEFT,
-    UPRIGHT,
+    get_grid_point, lines_to_char_grid, move_point_steps, Point, DIRECTIONS, DOWNLEFT, DOWNRIGHT,
+    UPLEFT, UPRIGHT,
 };
 use crate::util::misc::{assert_test, measure, show_results};
 
@@ -24,14 +24,11 @@ fn part1(filename: &str) -> usize {
 
     grid.iter()
         .enumerate()
-        .map(|line_idx| {
-            let (y, line) = line_idx;
+        .map(|(y, line)| {
             return line
                 .iter()
                 .enumerate()
-                .map(|char_idx| {
-                    let (x, ch) = char_idx;
-
+                .map(|(x, ch)| {
                     if *ch != 'X' {
                         return 0;
                     }
@@ -44,10 +41,10 @@ fn part1(filename: &str) -> usize {
                     return DIRECTIONS
                         .iter()
                         .map(|dir| {
-                            let ptx = move_point(&pos, &dir, 0);
-                            let ptm = move_point(&pos, &dir, 1);
-                            let pta = move_point(&pos, &dir, 2);
-                            let pts = move_point(&pos, &dir, 3);
+                            let ptx = move_point_steps(&pos, &dir, 0);
+                            let ptm = move_point_steps(&pos, &dir, 1);
+                            let pta = move_point_steps(&pos, &dir, 2);
+                            let pts = move_point_steps(&pos, &dir, 3);
 
                             let chx = get_grid_point(&grid, &ptx);
                             let chm = get_grid_point(&grid, &ptm);
@@ -72,14 +69,10 @@ fn part2(filename: &str) -> usize {
 
     grid.iter()
         .enumerate()
-        .map(|line_idx| {
-            let (y, line) = line_idx;
-            return line
-                .iter()
+        .map(|(y, line)| {
+            line.iter()
                 .enumerate()
-                .map(|char_idx| {
-                    let (x, ch) = char_idx;
-
+                .map(|(x, ch)| {
                     if *ch != 'A' {
                         return 0;
                     }
@@ -89,10 +82,10 @@ fn part2(filename: &str) -> usize {
                         x: x as isize,
                     };
 
-                    let p_ul = move_point(&pos, &UPLEFT, 1);
-                    let p_ur = move_point(&pos, &UPRIGHT, 1);
-                    let p_dl = move_point(&pos, &DOWNLEFT, 1);
-                    let p_dr = move_point(&pos, &DOWNRIGHT, 1);
+                    let p_ul = move_point_steps(&pos, &UPLEFT, 1);
+                    let p_ur = move_point_steps(&pos, &UPRIGHT, 1);
+                    let p_dl = move_point_steps(&pos, &DOWNLEFT, 1);
+                    let p_dr = move_point_steps(&pos, &DOWNRIGHT, 1);
 
                     let ch_ul = get_grid_point(&grid, &p_ul);
                     let ch_ur = get_grid_point(&grid, &p_ur);
@@ -107,7 +100,7 @@ fn part2(filename: &str) -> usize {
                         _ => 0,
                     }
                 })
-                .sum::<usize>();
+                .sum::<usize>()
         })
         .sum()
 }

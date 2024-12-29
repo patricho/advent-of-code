@@ -1,7 +1,16 @@
-#[derive(Debug)]
+use std::hash::{Hash, Hasher};
+
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Point {
     pub x: isize,
     pub y: isize,
+}
+
+impl Hash for Point {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.x.hash(state);
+        self.y.hash(state);
+    }
 }
 
 pub const UP: Point = Point { y: -1, x: 0 };
@@ -22,11 +31,23 @@ pub fn get_grid_point(grid: &Vec<Vec<char>>, p: &Point) -> char {
     }
 }
 
-pub fn move_point(p: &Point, dir: &Point, step: isize) -> Point {
+pub fn move_point_steps(p: &Point, dir: &Point, step: isize) -> Point {
     Point {
         y: p.y + (dir.y * step),
         x: p.x + (dir.x * step),
     }
+}
+
+pub fn move_to_new_point(p: &Point, delta: &Point) -> Point {
+    Point {
+        y: p.y + delta.y,
+        x: p.x + delta.x,
+    }
+}
+
+pub fn move_point(p: &mut Point, delta: &Point) {
+    (*p).x += delta.x;
+    (*p).y += delta.y;
 }
 
 pub fn lines_to_char_grid(lines: &Vec<String>) -> Vec<Vec<char>> {
@@ -34,4 +55,10 @@ pub fn lines_to_char_grid(lines: &Vec<String>) -> Vec<Vec<char>> {
         .iter()
         .map(|line| line.chars().collect::<Vec<char>>())
         .collect::<Vec<_>>()
+}
+
+pub fn print_grid(grid: &Vec<Vec<char>>) {
+    grid.iter().for_each(|line| {
+        println!("{}", line.iter().collect::<String>());
+    })
 }
