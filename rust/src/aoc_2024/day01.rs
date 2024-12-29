@@ -14,7 +14,7 @@ pub fn main() {
     });
 }
 
-fn part1(filename: &str) -> i32 {
+fn part1(filename: &str) -> isize {
     let (left, right) = get_sorted_lists(filename);
 
     let result = left.iter().zip(&right).map(|(l, r)| (l - r).abs()).sum();
@@ -24,7 +24,7 @@ fn part1(filename: &str) -> i32 {
     result
 }
 
-fn part2(filename: &str) -> i32 {
+fn part2(filename: &str) -> isize {
     let (left, right) = get_sorted_lists(filename);
     let counts = count_values(right);
 
@@ -35,10 +35,10 @@ fn part2(filename: &str) -> i32 {
     result
 }
 
-fn get_sorted_lists(filename: &str) -> (Vec<i32>, Vec<i32>) {
+fn get_sorted_lists(filename: &str) -> (Vec<isize>, Vec<isize>) {
     let lines = read_file_lines(filename);
 
-    let (mut left, mut right): (Vec<i32>, Vec<i32>) = lines
+    let (mut left, mut right): (Vec<isize>, Vec<isize>) = lines
         .iter()
         .map(|line| {
             let ints = split_spaces_to_ints(line);

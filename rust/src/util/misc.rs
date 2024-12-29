@@ -18,7 +18,7 @@ pub fn measure(func: impl Fn()) {
     println!("time: {:?}", duration)
 }
 
-pub fn count_values<T: Eq + Hash>(vec: Vec<T>) -> HashMap<T, i32> {
+pub fn count_values<T: Eq + Hash>(vec: Vec<T>) -> HashMap<T, isize> {
     let mut hash = HashMap::new();
 
     for r in vec {
@@ -37,11 +37,11 @@ pub fn count_values<T: Eq + Hash>(vec: Vec<T>) -> HashMap<T, i32> {
 //         .unwrap_or_default()
 // }
 
-pub fn to_int(input: &str) -> i32 {
-    input.parse::<i32>().unwrap_or_default()
+pub fn to_int(input: &str) -> isize {
+    input.parse::<isize>().unwrap_or_default()
 }
 
-pub fn get_hash_int<K: Eq>(hash: &HashMap<K, i32>, key: &K) -> i32
+pub fn get_hash_int<K: Eq>(hash: &HashMap<K, isize>, key: &K) -> isize
 where
     K: Hash,
 {
@@ -52,6 +52,6 @@ pub fn get_hash_value<K: Eq + Hash, V: Copy>(hash: &HashMap<K, V>, key: &K, defa
     return hash.get(key).unwrap_or(&default).clone();
 }
 
-pub fn split_spaces_to_ints(line: &str) -> Vec<i32> {
+pub fn split_spaces_to_ints(line: &str) -> Vec<isize> {
     return line.split_whitespace().map(|s| to_int(s)).collect();
 }

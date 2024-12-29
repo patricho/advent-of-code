@@ -35,7 +35,7 @@ fn part2(filename: &str) -> usize {
     return ok_rows;
 }
 
-fn lines_to_diffs(lines: Vec<String>) -> Vec<Vec<i32>> {
+fn lines_to_diffs(lines: Vec<String>) -> Vec<Vec<isize>> {
     lines
         .iter()
         .map(|line| split_spaces_to_ints(line))
@@ -43,8 +43,8 @@ fn lines_to_diffs(lines: Vec<String>) -> Vec<Vec<i32>> {
         .collect()
 }
 
-fn line_diff(lineints: &Vec<i32>) -> Vec<i32> {
-    let mut diffs: Vec<i32> = Vec::new();
+fn line_diff(lineints: &Vec<isize>) -> Vec<isize> {
+    let mut diffs: Vec<isize> = Vec::new();
 
     for i in 1..lineints.len() {
         let diff = lineints[i] - lineints[i - 1];
@@ -54,7 +54,7 @@ fn line_diff(lineints: &Vec<i32>) -> Vec<i32> {
     return diffs.clone();
 }
 
-fn linediffs_ok(line: &Vec<i32>) -> bool {
+fn linediffs_ok(line: &Vec<isize>) -> bool {
     let mut inc = false;
     let mut dec = false;
     let mut diffok = true;
@@ -74,7 +74,7 @@ fn linediffs_ok(line: &Vec<i32>) -> bool {
     return (inc || dec) && !(inc && dec) && diffok;
 }
 
-fn any_line_variant_ok(line: &Vec<i32>) -> bool {
+fn any_line_variant_ok(line: &Vec<isize>) -> bool {
     // Instead, we can use concat() to concatenate two vector slices into a new vector. This
     // approach allocates memory for the new vector in a single operation, minimizing reallocations
     // and processing each item only once. As a result, it has a time complexity of O(m + n), where
