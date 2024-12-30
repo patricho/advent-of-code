@@ -1,8 +1,8 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
 use crate::util::{
     file::read_file_lines,
-    grid::{lines_to_char_grid, move_to_new_point, print_grid, Point, DOWN, LEFT, RIGHT, UP},
+    grid::{lines_to_char_grid, move_to_new_point, Point, DOWN, LEFT, RIGHT, UP},
     misc::{assert_test, measure, show_results},
 };
 

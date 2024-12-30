@@ -9,5 +9,6 @@ fn main() {
     // aoc_2024::day04::main();
     // aoc_2024::day05::main();
     // aoc_2024::day06::main();
-    aoc_2024::day07::main();
+    // aoc_2024::day07::main();
+    aoc_2024::day08::main();
 }
