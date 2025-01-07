@@ -30,6 +30,10 @@ pub fn count_values<T: Eq + Hash>(vec: Vec<T>) -> HashMap<T, isize> {
     return hash;
 }
 
+pub fn char_to_usize(c: char) -> usize {
+    c.to_digit(10).unwrap() as usize
+}
+
 // fn to<T: FromStr + Default>(input: &str) -> T
 // where <T as FromStr>::Err: Debug {
 //     input
@@ -38,20 +42,26 @@ pub fn count_values<T: Eq + Hash>(vec: Vec<T>) -> HashMap<T, isize> {
 // }
 
 pub fn to_int(input: &str) -> isize {
-    input.parse::<isize>().unwrap_or_default()
+    input
+        .parse::<isize>()
+        .unwrap_or_default()
 }
 
 pub fn get_hash_int<K: Eq>(hash: &HashMap<K, isize>, key: &K) -> isize
-where
-    K: Hash,
-{
+where K: Hash {
     return get_hash_value(&hash, key, 0);
 }
 
 pub fn get_hash_value<K: Eq + Hash, V: Copy>(hash: &HashMap<K, V>, key: &K, default: V) -> V {
-    return hash.get(key).unwrap_or(&default).clone();
+    return hash
+        .get(key)
+        .unwrap_or(&default)
+        .clone();
 }
 
 pub fn split_spaces_to_ints(line: &str) -> Vec<isize> {
-    return line.split_whitespace().map(|s| to_int(s)).collect();
+    return line
+        .split_whitespace()
+        .map(|s| to_int(s))
+        .collect();
 }
