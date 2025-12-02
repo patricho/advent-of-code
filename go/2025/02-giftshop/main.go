@@ -10,6 +10,11 @@ import (
 	"github.com/patricho/advent-of-code/go/shared"
 )
 
+const (
+	INPUT_FILE = "../inputs/2025/02-input.txt"
+	TEST_FILE  = "../inputs/2025/02-test.txt"
+)
+
 var (
 	reTwice    *regexp2.Regexp
 	reMultiple *regexp2.Regexp
@@ -29,23 +34,13 @@ func main() {
 }
 
 func test() {
-	shared.RunCase("test part 1", func() int {
-		return part1("../inputs/2025/02-test.txt")
-	}, 1227775554)
-
-	shared.RunCase("test part 2", func() int {
-		return part2("../inputs/2025/02-test.txt")
-	}, 4174379265)
+	shared.RunCase("test part 1", func() int { return part1(TEST_FILE) }, 1227775554)
+	shared.RunCase("test part 2", func() int { return part2(TEST_FILE) }, 4174379265)
 }
 
 func run() {
-	shared.RunCase("part 1", func() int {
-		return part1("../inputs/2025/02-input.txt")
-	}, 12586854255)
-
-	shared.RunCase("part 2", func() int {
-		return part2("../inputs/2025/02-input.txt")
-	}, 17298174201)
+	shared.RunCase("part 1", func() int { return part1(INPUT_FILE) }, 12586854255)
+	shared.RunCase("part 2", func() int { return part2(INPUT_FILE) }, 17298174201)
 }
 
 func part1(filename string) int {
@@ -57,12 +52,15 @@ func part2(filename string) int {
 }
 
 func check(filename string, re *regexp2.Regexp) int {
-	input := shared.ReadFile(filename)
 	errsum := 0
+
+	input := shared.ReadFile(filename)
 	ranges := strings.Split(input[0], ",")
+
 	for _, rng := range ranges {
 		errsum += checkRange(rng, re)
 	}
+
 	return errsum
 }
 
