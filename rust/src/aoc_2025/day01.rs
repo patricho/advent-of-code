@@ -1,16 +1,16 @@
 use crate::util::file::read_file_lines;
-use crate::util::misc::{measure, to_int};
+use crate::util::misc::{assert_test, measure, show_results, to_int};
 
 const FILE_TEST: &str = "../inputs/2025/01-test.txt";
 const FILE_INPUT: &str = "../inputs/2025/01-input.txt";
 
 pub fn main() {
-    assert_eq!(part1(FILE_TEST), 3);
-    assert_eq!(part2(FILE_TEST), 6);
+    assert_test(FILE_TEST, part1, 3);
+    assert_test(FILE_TEST, part2, 6);
 
     measure(|| {
-        assert_eq!(part1(FILE_INPUT), 1092);
-        assert_eq!(part2(FILE_INPUT), 6616);
+        show_results(FILE_INPUT, 1, part1);
+        show_results(FILE_INPUT, 2, part2);
     });
 }
 
@@ -39,8 +39,8 @@ fn part2(filename: &str) -> isize {
 
             position += step;
 
-            let prev_pos_div = ((prev_position as f64) / 100f64).floor() as isize;
-            let pos_div = ((position as f64) / 100f64).floor() as isize;
+            let prev_pos_div = ((prev_position as f64) / 100_f64).floor() as isize;
+            let pos_div = ((position as f64) / 100_f64).floor() as isize;
 
             let mut diff = (pos_div - prev_pos_div).abs();
 

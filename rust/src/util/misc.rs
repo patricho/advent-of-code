@@ -1,12 +1,13 @@
 use core::hash::Hash;
 use std::collections::HashMap;
+use std::fmt::{Debug, Display};
 use std::time::Instant;
 
-pub fn assert_test(file: &str, func: fn(&str) -> usize, expected: usize) {
-    assert_eq!(func(file), expected)
+pub fn assert_test<T: Eq + Debug>(file: &str, func: fn(&str) -> T, want: T) {
+    assert_eq!(func(file), want)
 }
 
-pub fn show_results(file: &str, part: usize, func: fn(&str) -> usize) {
+pub fn show_results<T: Display>(file: &str, part: usize, func: fn(&str) -> T) {
     let res = func(file);
     println!("file: {file}, part: {part}, res: {res}");
 }
@@ -15,7 +16,7 @@ pub fn measure(func: impl Fn()) {
     let start = Instant::now();
     func();
     let duration = start.elapsed();
-    println!("time: {:?}", duration)
+    println!("\x1b[90mtime: {:?}\x1b[0m", duration)
 }
 
 pub fn count_values<T: Eq + Hash>(vec: Vec<T>) -> HashMap<T, isize> {

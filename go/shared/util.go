@@ -10,6 +10,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/fatih/color"
 )
 
 // Abs returns the absolute value of x
@@ -90,7 +92,27 @@ func OOB[T any](grid [][]T, p Point) bool {
 func Measure(f func()) {
 	start := time.Now()
 	f()
-	fmt.Println("time:", time.Since(start))
+	elapsed := time.Since(start)
+
+	color.RGB(128, 128, 128).Println("time:", elapsed)
+}
+
+func Assert[T comparable](got T, want T) {
+	if got == want {
+		color.Green("want: %v\ngot : %v\n", want, got)
+	} else {
+		color.Red("want: %v\ngot : %v\n", want, got)
+	}
+}
+
+func RunCase[T comparable](title string, fn func() T, want T) {
+	fmt.Println()
+	fmt.Println(title)
+
+	Measure(func() {
+		got := fn()
+		Assert(got, want)
+	})
 }
 
 // GCD finds greatest common divisor via Euclidean algorithm
