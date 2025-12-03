@@ -115,6 +115,11 @@ func RunCase[T comparable](title string, fn func() T, want T) {
 	})
 }
 
+func DisplayMain(fn func()) {
+	fn()
+	color.RGB(64, 64, 64).Printf("\n---\n")
+}
+
 // GCD finds greatest common divisor via Euclidean algorithm
 func GCD(a, b int) int {
 	for b != 0 {

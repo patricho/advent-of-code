@@ -5,15 +5,42 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/fatih/color"
 	"github.com/patricho/advent-of-code/go/shared"
 )
 
 func main() {
-	// test()
-	run()
+	shared.DisplayMain(func() {
+		test()
+		run()
+	})
+}
 
-	color.RGB(64, 64, 64).Printf("\n---\n")
+func test() {
+	shared.RunCase("part 1 test", func() int {
+		return part1("../inputs/2025/01-test.txt")
+	}, 3)
+
+	shared.RunCase("part 2 test", func() int {
+		return part2("../inputs/2025/01-test.txt")
+	}, 6)
+
+	// // A bunch of test cases for part 2
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{1000}) }, 10)
+	// //  All these should give exactly 1
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-75, 20}) }, 1)
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{75, -20}) }, 1)
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-50, 50}) }, 1)
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-50, -50}) }, 1)
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{50, 50}) }, 1)
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{50, -50}) }, 1)
+	// //  All these should give exactly 2
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-200}) }, 2)
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{200}) }, 2)
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-150, -50}) }, 2)
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-150, 50}) }, 2)
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{150, -50}) }, 2)
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{150, 50}) }, 2)
+	// shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-50, 100}) }, 2)
 }
 
 func run() {
@@ -80,32 +107,4 @@ func getSteps(filename string) []int {
 		steps = append(steps, step)
 	}
 	return steps
-}
-
-func test() {
-	shared.RunCase("part 1 test", func() int {
-		return part1("../inputs/2025/01-test.txt")
-	}, 3)
-
-	shared.RunCase("part 2 test", func() int {
-		return part2("../inputs/2025/01-test.txt")
-	}, 6)
-
-	// A bunch of test cases for part 2
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{1000}) }, 10)
-	//  All these should give exactly 1
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-75, 20}) }, 1)
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{75, -20}) }, 1)
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-50, 50}) }, 1)
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-50, -50}) }, 1)
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{50, 50}) }, 1)
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{50, -50}) }, 1)
-	//  All these should give exactly 2
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-200}) }, 2)
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{200}) }, 2)
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-150, -50}) }, 2)
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-150, 50}) }, 2)
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{150, -50}) }, 2)
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{150, 50}) }, 2)
-	shared.RunCase("part 2 test case", func() int { return part2Loop([]int{-50, 100}) }, 2)
 }

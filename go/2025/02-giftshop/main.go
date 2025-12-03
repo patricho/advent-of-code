@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/dlclark/regexp2"
-	"github.com/fatih/color"
 
 	"github.com/patricho/advent-of-code/go/shared"
 )
@@ -21,16 +20,16 @@ var (
 )
 
 func main() {
-	// Start, a sequence of digits, then backtrack to match that sequence again, end
-	reTwice = regexp2.MustCompile(`^(\d+)\1$`, 0)
+	shared.DisplayMain(func() {
+		// Start, a sequence of digits, then backtrack to match that sequence again, end
+		reTwice = regexp2.MustCompile(`^(\d+)\1$`, 0)
 
-	// Start, a sequence of digits, then backtrack to match that sequence again one or more times, end
-	reMultiple = regexp2.MustCompile(`^(\d+)\1+$`, 0)
+		// Start, a sequence of digits, then backtrack to match that sequence again one or more times, end
+		reMultiple = regexp2.MustCompile(`^(\d+)\1+$`, 0)
 
-	test()
-	run()
-
-	color.RGB(64, 64, 64).Printf("\n---\n")
+		test()
+		run()
+	})
 }
 
 func test() {
