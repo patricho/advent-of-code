@@ -7,15 +7,32 @@ type Point struct {
 }
 
 var (
-	Up         Point   = Point{Y: -1, X: 0}
-	Down       Point   = Point{Y: 1, X: 0}
-	Right      Point   = Point{Y: 0, X: 1}
-	Left       Point   = Point{Y: 0, X: -1}
+	Up    Point = Point{Y: -1, X: 0}
+	Down  Point = Point{Y: 1, X: 0}
+	Right Point = Point{Y: 0, X: 1}
+	Left  Point = Point{Y: 0, X: -1}
+
+	UpLeft    Point = Point{Y: -1, X: -1}
+	DownLeft  Point = Point{Y: 1, X: -1}
+	UpRight   Point = Point{Y: -1, X: 1}
+	DownRight Point = Point{Y: 1, X: 1}
+
 	Directions []Point = []Point{
 		Up,
 		Right,
 		Down,
 		Left,
+	}
+
+	DirectionsAndDiagonals []Point = []Point{
+		Up,
+		Right,
+		Down,
+		Left,
+		UpLeft,
+		DownLeft,
+		UpRight,
+		DownRight,
 	}
 )
 

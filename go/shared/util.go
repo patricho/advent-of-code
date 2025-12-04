@@ -85,6 +85,21 @@ func GridToString(grid [][]rune) string {
 	return b.String()
 }
 
+func PrintGrid(grid [][]rune, on rune) {
+	ce := color.New(color.FgRed)
+	cf := color.New(color.Faint)
+	for _, l := range grid {
+		for _, r := range l {
+			if r == on {
+				ce.Print(string(on))
+			} else {
+				cf.Print(string(r))
+			}
+		}
+		fmt.Print("\n")
+	}
+}
+
 func OOB[T any](grid [][]T, p Point) bool {
 	return p.Y < 0 || p.Y >= len(grid) || p.X < 0 || p.X >= len(grid[0])
 }
@@ -230,4 +245,8 @@ func ToIntSlice(s string) []int {
 		out[i] = ToInt(str)
 	}
 	return out
+}
+
+func Move(p Point, d Point) Point {
+	return Point{X: p.X + d.X, Y: p.Y + d.Y}
 }
