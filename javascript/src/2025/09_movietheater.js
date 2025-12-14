@@ -121,7 +121,4 @@ function inPolygon(point, coords) {
     else pointsOutsidePolygon.add(key)
 
     return res
-
-
 }
-
