@@ -9,7 +9,7 @@ pub fn assert_test<T: Eq + Debug>(file: &str, func: fn(&str) -> T, want: T) {
 
 pub fn show_results<T: Display>(file: &str, part: usize, func: fn(&str) -> T) {
     let res = func(file);
-    println!("file: {file}, part: {part}, res: {res}");
+    println!("\x1b[90mfile:\x1b[0m {file}\x1b[90m, part:\x1b[0m {part}\x1b[90m, res:\x1b[0m {res}");
 }
 
 pub fn measure(func: impl Fn()) {
@@ -43,26 +43,28 @@ pub fn char_to_usize(c: char) -> usize {
 // }
 
 pub fn to_int(input: &str) -> isize {
-    input
-        .parse::<isize>()
-        .unwrap_or_default()
+    input.parse::<isize>().unwrap_or_default()
+}
+
+pub fn debug_print<T: Debug>(label: &str, o: &T) {
+    println!("{}: {:#?}", label, o);
 }
 
 pub fn get_hash_int<K: Eq>(hash: &HashMap<K, isize>, key: &K) -> isize
-where K: Hash {
+where
+    K: Hash,
+{
     return get_hash_value(&hash, key, 0);
 }
 
 pub fn get_hash_value<K: Eq + Hash, V: Copy>(hash: &HashMap<K, V>, key: &K, default: V) -> V {
-    return hash
-        .get(key)
-        .unwrap_or(&default)
-        .clone();
+    return hash.get(key).unwrap_or(&default).clone();
 }
 
 pub fn split_spaces_to_ints(line: &str) -> Vec<isize> {
-    return line
-        .split_whitespace()
-        .map(|s| to_int(s))
-        .collect();
+    return line.split_whitespace().map(|s| to_int(s)).collect();
+}
+
+pub fn split_lines_to_vec(input: &str) -> Vec<String> {
+    return input.lines().map(|line| line.to_string()).collect();
 }

@@ -4,11 +4,13 @@ use crate::util::{
 };
 
 static FILE_TEST: &str = "data/2024/09_test.txt";
+static FILE_TEST_2: &str = "data/2024/09_test_2.txt";
 static FILE_INPUT: &str = "data/2024/09_input.txt";
 
 pub fn main() {
     assert_test(FILE_TEST, part1, 1928);
     assert_test(FILE_TEST, part2, 2858);
+    assert_test(FILE_TEST_2, part2, 169);
 
     measure(|| {
         show_results(FILE_INPUT, 1, part1);
@@ -16,6 +18,7 @@ pub fn main() {
     });
 
     assert_test(FILE_INPUT, part1, 6446899523367);
+    assert_test(FILE_INPUT, part2, 6478232739671);
 }
 
 fn part1(filename: &str) -> usize {
@@ -85,21 +88,20 @@ fn part1(filename: &str) -> usize {
 fn part2(filename: &str) -> usize {
     let (mut files, mut blanks) = parse_input(filename);
 
-    // print_files(&files);
-
     for file_idx in (0..files.len()).rev() {
         let mut curr_file = files[file_idx];
 
         for blank_idx in 0..blanks.len() {
             let mut curr_blank = blanks[blank_idx];
 
-            // Is the current file smaller than the current blank we want to put it in?
-            if curr_file.count <= curr_blank.count {
+            // Does the current file fit into the current blank?
+            if curr_file.count <= curr_blank.count && curr_blank.start < curr_file.start {
                 // Move all the file contents
                 curr_file.start = curr_blank.start;
                 curr_blank.count -= curr_file.count;
                 curr_blank.start += curr_file.count;
 
+                // Write back to the vecs
                 files[file_idx] = curr_file;
                 blanks[blank_idx] = curr_blank;
 
@@ -110,21 +112,8 @@ fn part2(filename: &str) -> usize {
 
     files.sort_by(|a, b| a.start.cmp(&b.start));
 
-    // print_files(&files);
-
-    /*
-    Iterating over a range:
-
-    (0..10).into_iter().for_each(|i| {
-        println!("{}", i);
-    });
-
-    Or an array:
-
-    [0..10].iter().for_each(|i| {
-        println!("{}", i);
-    });
-    */
+    // debug_print("after", &files);
+    // print_files(&files, &blanks);
 
     let total_checksum = files
         .iter()
@@ -157,10 +146,17 @@ fn parse_input(filename: &str) -> (Vec<File>, Vec<Blank>) {
         let n = char_to_usize(c);
 
         if in_file {
-            files.push(File { id: file_id, count: n, start: idx });
+            files.push(File {
+                id: file_id,
+                count: n,
+                start: idx,
+            });
             file_id += 1;
         } else {
-            blanks.push(Blank { count: n, start: idx });
+            blanks.push(Blank {
+                count: n,
+                start: idx,
+            });
         }
 
         idx += n;
@@ -170,25 +166,51 @@ fn parse_input(filename: &str) -> (Vec<File>, Vec<Blank>) {
     (files, blanks)
 }
 
-// fn print_files(files: &Vec<File>) {
-//     print!("files: ");
-//     files.iter().for_each(|f| {
-//         let filerep = repeat(f.id.to_string())
-//             .take(f.count)
-//             .collect::<String>();
-//         print!("{filerep}");
-//     });
-//     println!("");
-// }
+/* fn print_files(files: &Vec<File>, blanks: &Vec<Blank>) {
+    // Combine files and blanks into a single list with position info
+    enum Block {
+        FileBlock(usize, usize, usize), // (id, count, start)
+        BlankBlock(usize, usize),       // (count, start)
+    }
 
-#[derive(Clone, Copy)]
+    let mut blocks: Vec<(usize, Block)> = vec![];
+
+    for f in files {
+        blocks.push((f.start, Block::FileBlock(f.id, f.count, f.start)));
+    }
+    for b in blanks {
+        blocks.push((b.start, Block::BlankBlock(b.count, b.start)));
+    }
+
+    // Sort by start position
+    blocks.sort_by_key(|(start, _)| *start);
+
+    // Print interleaved
+    for (idx, block) in blocks {
+        match block {
+            Block::FileBlock(id, count, start) => {
+                let rep = repeat(id.to_string()).take(count).collect::<String>();
+                print!("{rep}");
+                // println!("{idx} | {start} | file: #{id} {count} {rep}");
+            }
+            Block::BlankBlock(count, start) => {
+                let rep = repeat(".").take(count).collect::<String>();
+                print!("{rep}");
+                // println!("{idx} | {start} | blnk: {count} {rep}");
+            }
+        }
+    }
+    println!();
+} */
+
+#[derive(Clone, Copy, Debug)]
 pub struct File {
     pub id: usize,
     pub start: usize,
     pub count: usize,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct Blank {
     pub start: usize,
     pub count: usize,
