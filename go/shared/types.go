@@ -3,7 +3,7 @@ package shared
 import "container/list"
 
 type Point struct {
-	Y, X int
+	Y, X, Z int
 }
 
 var (

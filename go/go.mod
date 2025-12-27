@@ -1,6 +1,6 @@
 module github.com/patricho/advent-of-code/go
 
-go 1.21.5
+go 1.25
 
 require github.com/fatih/color v1.18.0
 

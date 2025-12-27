@@ -242,7 +242,7 @@ func Shoelace(points []Point) int {
 	return int(math.Abs(float64(area / 2)))
 }
 
-func ToIntSlice(s string) []int {
+func ToIntSlice(s string, separator string) []int {
 	strs := strings.Split(s, ",")
 	out := make([]int, len(strs))
 	for i, str := range strs {
