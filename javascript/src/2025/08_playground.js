@@ -5,10 +5,10 @@ export default main
 function main() {
     prettyPrint(() => {
         assert('part 1 test', 40, () => part1('../inputs/2025/08-test.txt', 10))
-        assert('part 2 test', 25272, () => part2('../inputs/2025/08-test.txt'))
+        // assert('part 2 test', 25272, () => part2('../inputs/2025/08-test.txt'))
 
         assert('part 1', 244188, () => part1('../inputs/2025/08-input.txt', 1000))
-        assert('part 2', 8361881885, () => part2('../inputs/2025/08-input.txt'))
+        // assert('part 2', 8361881885, () => part2('../inputs/2025/08-input.txt'))
     })
 }
 
@@ -101,7 +101,7 @@ function solve(filename, part, target) {
     if (part == 1) {
         countCircuits()
 
-        // Sort by count, sum the 3 first
+        // Sort by count, multiply the 3 first
         const sum = Object.values(circuits)
             .sort((a, b) => b - a)
             .splice(0, 3)

@@ -12,6 +12,15 @@ export function readFileString(filename) {
     return readFileSync(filename, 'utf8').trim()
 }
 
+export function readFileNumberGrid(filename, separator = ',') {
+    return readFileSync(filename, 'utf8')
+        .trim()
+        .split('\n')
+        .map((line) => {
+            return line.split(separator).map((s) => parseInt(s))
+        })
+}
+
 /**
  * @param {string} label
  * @param {number} want
@@ -110,4 +119,3 @@ export function isPointOnSegment(point, p1, p2) {
 
     return Math.abs(crossProduct) < 1
 }
-
