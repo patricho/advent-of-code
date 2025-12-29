@@ -4,5 +4,5 @@ pub mod aoc_2025;
 pub mod util;
 
 fn main() {
-    aoc_2024::day11::main();
+    aoc_2024::day12::main();
 }

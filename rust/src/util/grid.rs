@@ -49,6 +49,8 @@ pub const UPRIGHT: Point = Point::new(-1, 1);
 pub const DOWNLEFT: Point = Point::new(1, -1);
 pub const DOWNRIGHT: Point = Point::new(1, 1);
 pub const DIRECTIONS: [Point; 8] = [LEFT, RIGHT, UP, DOWN, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT];
+pub const ORTHOGOMALS: [Point; 4] = [LEFT, RIGHT, UP, DOWN];
+pub const DIAGONALS: [Point; 4] = [UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT];
 
 pub fn grid_contains(grid: &Vec<Vec<char>>, p: &Point) -> bool {
     p.y >= 0 && (p.y as usize) < grid.len() && p.x >= 0 && (p.x as usize) < grid[0].len()
@@ -67,11 +69,17 @@ pub fn set_grid_point(grid: &mut Vec<Vec<char>>, p: &Point, c: char) {
 }
 
 pub fn move_point_steps(p: &Point, dir: &Point, step: isize) -> Point {
-    Point { y: p.y + (dir.y * step), x: p.x + (dir.x * step) }
+    Point {
+        y: p.y + (dir.y * step),
+        x: p.x + (dir.x * step),
+    }
 }
 
 pub fn move_to_new_point(p: &Point, delta: &Point) -> Point {
-    Point { y: p.y + delta.y, x: p.x + delta.x }
+    Point {
+        y: p.y + delta.y,
+        x: p.x + delta.x,
+    }
 }
 
 pub fn move_point(p: &mut Point, delta: &Point) {
