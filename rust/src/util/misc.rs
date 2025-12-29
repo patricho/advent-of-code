@@ -68,3 +68,25 @@ pub fn split_spaces_to_ints(line: &str) -> Vec<isize> {
 pub fn split_lines_to_vec(input: &str) -> Vec<String> {
     return input.lines().map(|line| line.to_string()).collect();
 }
+
+pub fn digit_count(n: usize) -> u32 {
+    if n == 0 {
+        return 1;
+    }
+
+    n.ilog10() + 1
+}
+
+pub fn signed_digit_count(n: isize) -> u32 {
+    if n == 0 {
+        return 1;
+    }
+
+    n.unsigned_abs().ilog10() + 1
+}
+
+pub fn split_digits(n: usize) -> (usize, usize) {
+    let half_digits = (n.ilog10() + 1) / 2;
+    let divisor = 10_usize.pow(half_digits);
+    (n / divisor, n % divisor)
+}
