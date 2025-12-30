@@ -85,6 +85,8 @@ fn parse_machines(filename: &str) -> Vec<Machine> {
 }
 
 fn solve_machines(machines: &Vec<Machine>, offset: f64) -> usize {
+    // Formulas from: https://github.com/rjwut/advent/blob/main/src/solutions/2024/day-13.md
+
     machines
         .iter()
         .map(|m| {
