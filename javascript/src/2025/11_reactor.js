@@ -1,4 +1,4 @@
-import { readFileString, assert, prettyPrint, isPointInPolygon, readFileLines } from '../util/index.js'
+import { assert, prettyPrint, readFileLines } from '../util/index.js'
 
 export default main
 

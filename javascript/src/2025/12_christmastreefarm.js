@@ -1,14 +1,11 @@
-import { readFileString, assert, prettyPrint, isPointInPolygon, readFileLines } from '../util/index.js'
+import { assert, prettyPrint, readFileLines } from '../util/index.js'
 
 export default main
 
 function main() {
     prettyPrint(() => {
         assert('part 1 test', 2, () => part1('../inputs/2025/12-test.txt'))
-        // assert('part 2 test', 0, () => part2('../inputs/2025/12-test.txt'))
-
         assert('part 1', 497, () => part1('../inputs/2025/12-input.txt'))
-        // assert('part 2', 0, () => part2('../inputs/2025/12-input.txt'))
     })
 }
 

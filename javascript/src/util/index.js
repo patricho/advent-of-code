@@ -1,5 +1,26 @@
 import { readFileSync } from 'fs'
 
+export const DIRECTIONS_AND_DIAGONALS = [
+    { x: 0, y: -1 }, // up
+    { x: 0, y: 1 }, // down
+    { x: 1, y: 0 }, // right
+    { x: -1, y: 0 }, // left
+    { x: -1, y: -1 }, // up-left
+    { x: -1, y: 1 }, // down-left
+    { x: 1, y: -1 }, // up-right
+    { x: 1, y: 1 }, // down-right
+]
+
+/**
+ * @param {string[][]} grid
+ * @param {number} y
+ * @param {number} x
+ * @returns {boolean}
+ */
+export function outOfBounds(grid, y, x) {
+    return y < 0 || y >= grid.length || x < 0 || x >= grid[y].length
+}
+
 /**
  * @param {import("fs").PathOrFileDescriptor} filename
  * @returns {string[]}

@@ -1,3 +1,3 @@
-import run from './2025/08_playground.js'
+import run from './2025/01_secretentrance.js'
 
 run()
